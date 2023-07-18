@@ -39,11 +39,16 @@ def test_function7():
     print(b.status_code)
     print(b.json())
 
-def test_function8():
-    data = {
-
-    }
+def test_function8(create_user):
     headers = {"Authorization": "Bearer c3842a0fdeb2501dc1288ddbc7df815f22367a29057ca2672e680ff81e61d3f3"}
-    b = requests.post('https://gorest.co.in/public/v2/users', headers=headers, data=data)
+    b = requests.post('https://gorest.co.in/public/v2/users', headers=headers, data=create_user)
     print(b.status_code)
     print(b.json())
+
+def test_function9():
+    for i in range(0,11):
+        print(i)
+
+def test_function10(create_user):
+    print(create_user)
+
