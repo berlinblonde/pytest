@@ -5,7 +5,7 @@ class GoRestService:
     url='https://gorest.co.in/public/v2'
     create_user='/users' #переменные-путь к ресурсу который будет добавлен к адресу
     get_users='/users/'
-    posts_path = '/posts/' #переменная-путь к ресурсу который будет добавлен к адресу
+    posts_path = '/posts' #переменная-путь к ресурсу который будет добавлен к адресу
 
     def __init__(self): #метод конструктор
         pass
@@ -18,4 +18,11 @@ class GoRestService:
         r = requests.get(self.url+self.get_users+Data.user_id+self.posts_path, params=params) #переменная внутри метода, где хранится результат запроса (переменная урл+аргрумент+переменная post_path) формируя полный урл
         return r #результат запроса возвращается из метода
 
+    def add_garbage(self,headers,data):
+        r=requests.post(self.url+self.get_users+Data.user_id+self.posts_path, headers=headers, data=data)
+        return r
 
+
+    def send_dict(self,headers,data):
+        r=requests.post(self.url+self.get_users+Data.user_id, headers=headers,data=data)
+        return r

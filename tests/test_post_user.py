@@ -1,14 +1,77 @@
-from tests.static import Tokens
 from tests.config import GoRestService
+from tests.static import Tokens, Errors
 
-def test_function4():
-    bodies = [{"email": "hopouipa@opop.com", "name": "opop", "gender": "male", "status": "active"},
-              {"email": "hopozuopa@opop.com", "name": "zopop", "gender": "male", "status": "active"},
-              {"email": "hoertuozopa@opop.com", "name": "zofeFpop", "gender": "male", "status": "active"},
-              {"email": "hsafrtuozopa@opop.com", "name": "zosacfpop", "gender": "female", "status": "active"}, ]
-    headers = {"Authorization":Tokens.token}
 
-    for element in bodies:
-        b = GoRestService().post_user(headers=headers,data=element),
-        print(b)
+def test_user_creating_ok(create_user):
+    data=create_user
+    headers = {"Authorization": Tokens.token}
 
+    response = GoRestService().post_user(headers=headers, data=data)
+
+    assert response.status_code==201
+
+def test_user_creating_failed(create_user):
+    data=create_user
+    data['adress']='Berlin'
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().post_user(headers=headers, data=data)
+
+    assert response.status_code==201
+
+
+def test_create_user_different_gender(create_user):
+    data=create_user
+    data['gender']='Berlin'
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().post_user(headers=headers, data=data)
+
+    assert response.status_code==422
+
+def test_function_220():
+    data = {"body": "0000"}
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().add_garbage(headers=headers, data=data)
+    response_data = response.json()
+
+    assert response.status_code==422
+    assert len(response_data)>0
+    assert response_data[0]==Errors.blank_field #приводим к одному типу данных
+
+
+def test_function_288():
+    data = {}
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().add_garbage(headers=headers, data=data)
+    response_data = response.json()
+
+    assert response.status_code==422
+    assert len(response_data)>0
+    assert response_data[0]==Errors.blank_field
+
+def test_function_889():
+    data = {"body": "0000", "title":"99999999"}
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().add_garbage(headers=headers, data=data)
+    response_data = response.json()
+    print(response_data)
+
+def test_function_009():
+    data = {"body": "0000", "title":"99999999"}
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().add_garbage(headers=headers, data=data)
+    response_data = response.json()
+    print(response_data)
+
+def test_dict_creating(generate_random_dict):
+    data[]=
+    headers = {"Authorization": Tokens.token}
+
+    response = GoRestService().send_dict(headers=headers, data=data)
+    print(response)
+    #assert response.status_code==201
