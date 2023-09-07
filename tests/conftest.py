@@ -22,21 +22,15 @@ def create_user():
 def page_filter():
     return {'page': random.randint(0, 3), 'per_page': random.randint(0, 3)}
 
-@pytest.fixture
+
 def generate_random_string(lenght): #функция генерации случайных значений (строку) для ключей title и body
     letters = string.ascii_letters
     return ''.join(random.choice(letters) for _ in range(lenght)) #создаю случайную строку - случайный символ из letters и длину
 
 @pytest.fixture
-def generate_random_dict(number):
-    random_dict = {}
-    for _ in range(number):
-        title = generate_random_string(5)
-        body = generate_random_string(5)
-        key = "title" + str(_)#соединяю строку со значением
-        random_dict[key] = {"title": title, "body": body}#
-    return random_dict
+def generate_post_dict(number):
+    post_dict = {}
+    post_dict['title']=''.join(random.choices(string.ascii_lowercase, k=6))
+    post_dict['body']=''.join(random.choices(string.ascii_lowercase, k=7))
+    return post_dict
 
-number = 10 #задаю количество записей в переменную!
-data = generate_random_dict(number)#генерим словарь с использовнием функции
-print(data)
