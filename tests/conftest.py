@@ -37,6 +37,6 @@ def generate_random_dict(number):
         random_dict[key] = {"title": title, "body": body}#
     return random_dict
 
-number = 10 #задаю количество записей в переменную
+number = 10 #задаю количество записей в переменную!
 data = generate_random_dict(number)#генерим словарь с использовнием функции
 print(data)
