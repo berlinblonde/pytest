@@ -27,6 +27,7 @@ def generate_random_string(lenght): #функция генерации случ�
     letters = string.ascii_letters
     return ''.join(random.choice(letters) for _ in range(lenght)) #создаю случайную строку - случайный символ из letters и длину
 
+@pytest.fixture
 def generate_random_dict(number):
     random_dict = {}
     for _ in range(number):
