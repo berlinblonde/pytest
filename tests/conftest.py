@@ -28,9 +28,14 @@ def generate_random_string(lenght): #функция генерации случ�
     return ''.join(random.choice(letters) for _ in range(lenght)) #создаю случайную строку - случайный символ из letters и длину
 
 @pytest.fixture
-def generate_post_dict(number):
+def generate_post_dict():
     post_dict = {}
     post_dict['title']=''.join(random.choices(string.ascii_lowercase, k=6))
     post_dict['body']=''.join(random.choices(string.ascii_lowercase, k=7))
     return post_dict
 
+@pytest.fixture
+def generate_to_do_dict(generate_post_dict):
+    to_do_dict = generate_post_dict
+    to_do_dict['status']=random.choice(['pending','complited'])
+    return to_do_dict

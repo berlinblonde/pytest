@@ -1,5 +1,5 @@
 from tests.config import GoRestService
-from tests.static import Tokens, Errors
+from tests.static import Tokens, Errors, Data
 
 
 def test_user_creating_ok(create_user):
@@ -68,10 +68,20 @@ def test_function_009():
     response_data = response.json()
     print(response_data)
 
-def test_dict_creating(generate_random_dict):
-    data[]=
+def test_dict_creating(generate_post_dict):
+    data=generate_post_dict
     headers = {"Authorization": Tokens.token}
 
-    response = GoRestService().send_dict(headers=headers, data=data)
+    response = GoRestService().create_user_post(headers=headers, data=data)
     print(response)
-    #assert response.status_code==201
+    assert response.status_code==201
+    assert response.json()['title']==data['title']
+    assert response.json()['body']==data['body']
+    assert str(response.json()['user_id'])==Data.test_id
+
+def test_create_user_todos(generate_to_do_dict):
+    data=generate_to_do_dict
+    headers={"Authorization": Tokens.token}
+
+    response=GoRestService().create_user_to_do(headers=headers, data=data)
+    assert response.status_code==201

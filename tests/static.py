@@ -3,6 +3,7 @@ class Tokens:
 
 class Data:
     user_id='5124733'
+    test_id='2954'
 
 class Errors:
     blank_field={'field': 'title', 'message': "can't be blank"}

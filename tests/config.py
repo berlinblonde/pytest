@@ -1,4 +1,6 @@
 import requests
+import setuptools.errors
+
 from tests.static import Data
 
 class GoRestService:
@@ -6,6 +8,7 @@ class GoRestService:
     create_user='/users' #переменные-путь к ресурсу который будет добавлен к адресу
     get_users='/users/'
     posts_path = '/posts' #переменная-путь к ресурсу который будет добавлен к адресу
+    create_user_to_do ='/todos'
 
     def __init__(self): #метод конструктор
         pass
@@ -23,6 +26,11 @@ class GoRestService:
         return r
 
 
-    def send_dict(self,headers,data):
-        r=requests.post(self.url+self.get_users+Data.user_id, headers=headers,data=data)
+    def create_user_post(self,headers,data):
+        r=requests.post(self.url+self.get_users+Data.test_id+self.posts_path, headers=headers,data=data)
+        return r
+
+
+    def create_user_todos(self,headers,data):
+        r=requests.post(self.url+self.get_users+Data.test_id+self.create_user_to_do, headers=headers, data=data)
         return r
