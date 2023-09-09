@@ -1,87 +1,78 @@
 from tests.config import GoRestService
-from tests.static import Tokens, Errors, Data
+from tests.static import Tokens, Errors, Data, StatusCode
+
+HEADERS = {'Authorization': Tokens.token}
 
 
 def test_user_creating_ok(create_user):
-    data=create_user
-    headers = {"Authorization": Tokens.token}
+    response = GoRestService().post_user(headers=HEADERS, data=create_user)
 
-    response = GoRestService().post_user(headers=headers, data=data)
+    assert response.status_code == StatusCode.created
 
-    assert response.status_code==201
 
 def test_user_creating_failed(create_user):
-    data=create_user
-    data['adress']='Berlin'
-    headers = {"Authorization": Tokens.token}
+    data = create_user
+    data['adress'] = 'Berlin'
 
-    response = GoRestService().post_user(headers=headers, data=data)
+    response = GoRestService().post_user(headers=HEADERS, data=data)
 
-    assert response.status_code==201
+    assert response.status_code == StatusCode.created
 
 
 def test_create_user_different_gender(create_user):
-    data=create_user
-    data['gender']='Berlin'
-    headers = {"Authorization": Tokens.token}
+    data = create_user
+    data['gender'] = 'Berlin'
 
-    response = GoRestService().post_user(headers=headers, data=data)
+    response = GoRestService().post_user(headers=HEADERS, data=data)
 
-    assert response.status_code==422
+    assert response.status_code == StatusCode.user_error
+
 
 def test_function_220():
-    data = {"body": "0000"}
-    headers = {"Authorization": Tokens.token}
-
-    response = GoRestService().add_garbage(headers=headers, data=data)
+    response = GoRestService().add_garbage(headers=HEADERS, data={"body": "0000"})
     response_data = response.json()
 
-    assert response.status_code==422
-    assert len(response_data)>0
-    assert response_data[0]==Errors.blank_field #приводим к одному типу данных
+    assert response.status_code == StatusCode.user_error
+    assert len(response_data) > 0
+    assert response_data[0] == Errors.blank_field  # приводим к одному типу данных
 
 
 def test_function_288():
-    data = {}
-    headers = {"Authorization": Tokens.token}
-
-    response = GoRestService().add_garbage(headers=headers, data=data)
+    response = GoRestService().add_garbage(headers=HEADERS, data={})
     response_data = response.json()
 
-    assert response.status_code==422
-    assert len(response_data)>0
-    assert response_data[0]==Errors.blank_field
+    assert response.status_code == StatusCode.user_error
+    assert len(response_data) > 0
+    assert response_data[0] == Errors.blank_field
+
 
 def test_function_889():
-    data = {"body": "0000", "title":"99999999"}
-    headers = {"Authorization": Tokens.token}
-
-    response = GoRestService().add_garbage(headers=headers, data=data)
+    response = GoRestService().add_garbage(headers=HEADERS, data={"body": "0000", "title": "99999999"})
     response_data = response.json()
     print(response_data)
+
 
 def test_function_009():
-    data = {"body": "0000", "title":"99999999"}
-    headers = {"Authorization": Tokens.token}
+    response = GoRestService().add_garbage(headers=HEADERS, data={"body": "0000", "title": "99999999"})
+    assert response.status_code == StatusCode.created
 
-    response = GoRestService().add_garbage(headers=headers, data=data)
-    response_data = response.json()
-    print(response_data)
 
 def test_dict_creating(generate_post_dict):
-    data=generate_post_dict
-    headers = {"Authorization": Tokens.token}
+    response = GoRestService().create_user_post(headers=HEADERS, data=generate_post_dict)
+    assert response.status_code == StatusCode.created
+    assert response.json()['title'] == generate_post_dict['title']
+    assert response.json()['body'] == generate_post_dict['body']
+    assert str(response.json()['user_id']) == Data.test_id
 
-    response = GoRestService().create_user_post(headers=headers, data=data)
-    print(response)
-    assert response.status_code==201
-    assert response.json()['title']==data['title']
-    assert response.json()['body']==data['body']
-    assert str(response.json()['user_id'])==Data.test_id
 
-def test_create_user_todos(generate_to_do_dict):
-    data=generate_to_do_dict
-    headers={"Authorization": Tokens.token}
+def test_create_user_to_do(generate_to_do_dict):
+    response = GoRestService().create_user_todos(headers=HEADERS, data=generate_to_do_dict)
+    assert response.status_code == StatusCode.created
+    assert response.json()['title'] == generate_to_do_dict['title']
+    assert response.json()['status'] == generate_to_do_dict['status']
+    assert str(response.json()['user_id']) == Data.test_id
 
-    response=GoRestService().create_user_to_do(headers=headers, data=data)
-    assert response.status_code==201
+
+def test_create_user_comment(generate_comment_dict):
+    response = GoRestService().create_user_comment(headers=HEADERS, data=generate_comment_dict)
+    assert response.status_code == StatusCode.user_error

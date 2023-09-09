@@ -3,8 +3,12 @@ class Tokens:
 
 class Data:
     user_id='5124733'
-    test_id='2954'
+    test_id='2961'
 
 class Errors:
     blank_field={'field': 'title', 'message': "can't be blank"}
+
+class StatusCode:
+    created=201
+    user_error=422
 
