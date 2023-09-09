@@ -1,6 +1,14 @@
 class Tokens:
-    token='42556b448204220bbf90cfc5a384e63ccaf30db1de5c54d516d3702ec6445cba'
+    token='Bearer 4ce0bb65c5a42326b76b6a1c14e373bc58729241c5bf931110a552ff84959126'
 
 class Data:
-    user_id='4616621'
+    user_id='5124733'
+    test_id='2961'
+
+class Errors:
+    blank_field={'field': 'title', 'message': "can't be blank"}
+
+class StatusCode:
+    created=201
+    user_error=422
 
