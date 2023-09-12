@@ -3,7 +3,7 @@ class Tokens:
 
 class Data:
     user_id='5124733'
-    test_id='2961'
+    test_id='3030'
 
 class Errors:
     blank_field={'field': 'title', 'message': "can't be blank"}
@@ -11,4 +11,8 @@ class Errors:
 class StatusCode:
     created=201
     user_error=422
+    success=200
+    success_no_body=204
 
+class Headers:
+    headers={'Authorization': Tokens.token}
