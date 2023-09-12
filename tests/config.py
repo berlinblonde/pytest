@@ -1,4 +1,5 @@
 import requests
+
 from tests.static import Data
 
 
@@ -33,9 +34,15 @@ class GoRestService:
 
     def create_user_todos(self, headers, data):
         r = requests.post(self.url + self.get_users + Data.test_id + self.create_user_to_do, headers=headers, data=data)
+
         return r
 
     def create_user_comment(self, headers, data):
         r = requests.post(self.url + self.posts_path + '/' + Data.test_id + self.create_comment, headers=headers,
                           data=data)
+        return r
+
+
+    def delete_user(self,headers):
+        r = requests.delete(self.url+self.get_users+Data.test_id, headers=headers)
         return r
